@@ -1,22 +1,34 @@
-# DROP DATABASE vault;
-CREATE DATABASE vault;
+CREATE DATABASE IF NOT EXISTS vault;
+
 USE vault;
 
-CREATE TABLE meta (
-  id bigint PRIMARY KEY,
-  width smallint,
-  height smallint,
-  hashtext char(32),
-  size bigint,
-  duration bigint,
-  image_name varchar(255),
-  thumb_path text
+CREATE TABLE IF NOT EXISTS detail (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    resource_id CHAR(40),
+    file_name VARCHAR(255),
+    thumb_path TEXT,
+    permissions JSON
 );
 
-CREATE TABLE file_table (
+CREATE TABLE IF NOT EXISTS metadata (
     id BIGINT PRIMARY KEY,
-    file_type SMALLINT,
-    parent_id BIGINT,
-    meta_id bigint,
-	FOREIGN KEY (meta_id) REFERENCES meta(id)
+    width SMALLINT,
+    height SMALLINT,
+    duration BIGINT,
+    hashtext CHAR(32),
+    detail_id BIGINT,
+    resource_id CHAR(40),
+    FOREIGN KEY (detail_id) REFERENCES detail(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS file (
+    id BIGINT PRIMARY KEY,
+    parent BIGINT,
+    type TINYINT,
+    detail_id BIGINT,
+    meta_id BIGINT,
+    resource_id CHAR(40),
+    FOREIGN KEY (detail_id) REFERENCES detail(id),
+    FOREIGN KEY (meta_id) REFERENCES metadata(id)
 );
