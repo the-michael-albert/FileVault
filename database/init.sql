@@ -4,7 +4,7 @@ USE vault;
 
 CREATE TABLE IF NOT EXISTS detail (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    resource_id CHAR(40) UNIQUE,
+    resource_id CHAR(40),
     file_name VARCHAR(255),
     thumb_path TEXT,
     permissions JSON
