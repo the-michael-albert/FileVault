@@ -2,13 +2,12 @@ CREATE DATABASE IF NOT EXISTS vault;
 
 USE vault;
 
-
 CREATE TABLE IF NOT EXISTS detail (
-    id BIGINT PRIMARY KEY,
-    resource_id CHAR(40),
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    resource_id CHAR(40) UNIQUE,
     file_name VARCHAR(255),
     thumb_path TEXT,
-    permissions JSON,
+    permissions JSON
 );
 
 CREATE TABLE IF NOT EXISTS metadata (
@@ -19,9 +18,9 @@ CREATE TABLE IF NOT EXISTS metadata (
     hashtext CHAR(32),
     detail_id BIGINT,
     resource_id CHAR(40),
-    FOREIGN KEY (detail_id) REFERENCES detail(id),
-    FOREIGN KEY (resource_id) REFERENCES file(resource_id)
+    FOREIGN KEY (detail_id) REFERENCES detail(id)
 );
+
 
 CREATE TABLE IF NOT EXISTS file (
     id BIGINT PRIMARY KEY,
@@ -32,10 +31,4 @@ CREATE TABLE IF NOT EXISTS file (
     resource_id CHAR(40),
     FOREIGN KEY (detail_id) REFERENCES detail(id),
     FOREIGN KEY (meta_id) REFERENCES metadata(id)
-    FOREIGN KEY (resource_id) REFERENCES detail(resource_id)
-
 );
-
-
-
-
