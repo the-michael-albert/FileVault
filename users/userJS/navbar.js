@@ -66,7 +66,7 @@ let auth = {
     },
     render: function() { 
         return `
-        <div id="` + this.id + `" style="` + styleFormat(this.style) +`" onclick="` + this.onClick + `">
+        <div id="` + this.id + `" style="` + styleFormat(this.style) +`" onclick="` + this.onClick() + `">
         ` + navicon.render(scheme.icons.user, "user icon") + `
         </div>
         `;
@@ -147,6 +147,9 @@ let post_body = {
     }
 }
 
+// background: url(data:image/jpeg;base64,YourBase64StringHere) no-repeat center center fixed;
+
+
 let post_table = {
     id: "post-table",
     style: `
@@ -159,6 +162,27 @@ let post_table = {
         return [
             {
                 id: "post-1",
+            },
+            {
+                id: "post-2",
+            },
+            {
+                id: "post-3",
+            },
+            {
+                id: "post-4",
+            },
+            {
+                id: "post-5",
+            },
+            {
+                id: "post-6",
+            },
+            {
+                id: "post-7",
+            },
+            {
+                id: "post-8",
             }
         ];
     },
@@ -167,9 +191,7 @@ let post_table = {
         for (let i = 0; i < this.posts().length; i++) {
             const elem = this.posts()[i];
             post_body += post_image.render(elem.id);
-            console.log(elem.id);
         }
-        console.log(this.posts());
         return `
         <div id="` + this.id + `" style="` + styleFormat(this.style) +`">
         ` + post_body + `
@@ -181,13 +203,15 @@ let post_table = {
 let post_image = {
     id: "post_image_",
     style: `
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    aspect-ratio: 1 / 1;
     border-radius: 12.5%;
+    display: inline-block;
+
     `,
     render: function(resID) {
         return `
-        <div id="` + this.id + resID + `" class="square" style="` + styleFormat(this.style) +`">
+        <div id="` + this.id + resID + `" class="square thumb" style="` + styleFormat(this.style) +`"></div>
         `;
     }
 }
@@ -234,6 +258,7 @@ let post_title = {
 /**
  * FUNCTIONS
  */
+var loaded = false;
 
 function styleFormat(style){
     const str = style.replace(/\s/g, '');
@@ -242,4 +267,22 @@ function styleFormat(style){
         return match.replace(/-/g, " - ");
     }); 
     return result;
+}
+
+/*
+ From http://jaketrent.com/post/addremove-classes-raw-javascript/
+ */
+function hasClass(ele,cls) {
+    return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+}
+  
+function addClass(ele,cls) {
+    if (!hasClass(ele,cls)) ele.className += " "+cls;
+}
+  
+function removeClass(ele,cls) {
+    if (hasClass(ele,cls)) {
+        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+        ele.className=ele.className.replace(reg,' ');
+    }
 }

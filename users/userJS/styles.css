@@ -12,7 +12,12 @@ body{
     background: linear-gradient(to bottom right, #0000, #fff4, #0000, #fff4);
     background-size: 300% 300%;
     animation: gradient-animation 1s linear infinite;
-  }
+}
+.thumb{
+    width: 64px;
+    height: 64px;
+}
+
   
   @keyframes gradient-animation {
     0% {
@@ -22,3 +27,4 @@ body{
       background-position: 100% 100%;
     }
   }
+
