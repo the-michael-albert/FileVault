@@ -1,52 +1,93 @@
 package org.example;
 
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
+import java.io.Console;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 public class SendEmail {
+    public static void main(String[] args) throws IOException, MessagingException {
+        // Set up the SMTP server
+        String smtpServer = "smtpout.secureserver.net";
+        int port = 465; // SSL port
 
-    public static void main(String [] args) {
-        // Recipient's email ID needs to be mentioned.
-        String to = "abcd@gmail.com";
+        // Set up the login credentials
+        String username = "contact@michaelalbert.one";
+        String password = getPasswordFromConsole();
 
-        // Sender's email ID needs to be mentioned
-        String from = "web@gmail.com";
+        // Set up the email contents
+        String sender = "contact@michaelalbert.one";
+        String recipient = "recipient@example.com";
+        String subject = "Example HTML email";
+        String html = "<html><body><h1>This is an example HTML email!</h1><p>Here is some content:</p><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><img src=\"cid:image1\"></body></html>";
 
-        // Assuming you are sending email from localhost
-        String host = "localhost";
+        // Load an image file to attach as an inline image
+        File imageFile = new File("/Users/michaelalbert/Documents/GitHub/FileVault/_2backend/test/email_service/pymail/image.png");
+        String imageCid = "image1";
+        DataSource source = new FileDataSource(imageFile);
+        DataHandler imageHandler = new DataHandler(source);
 
-        // Get system properties
-        Properties properties = System.getProperties();
+        // Set up the JavaMail properties
+        Properties props = new Properties();
+        props.put("mail.smtp.host", smtpServer);
+        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.ssl.enable", "true");
 
-        // Setup mail server
-        properties.setProperty("mail.smtp.host", host);
+        // Set up the SMTP authentication
+        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
 
-        // Get the default Session object.
-        Session session = Session.getDefaultInstance(properties);
+        // Create the message object and set its attributes
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(sender));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+        message.setSubject(subject);
 
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
+        // Create the HTML body part
+        BodyPart htmlPart = new MimeBodyPart();
+        htmlPart.setContent(html, "text/html");
 
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
+        // Create the image body part
+        BodyPart imagePart = new MimeBodyPart();
+        imagePart.setDataHandler(imageHandler);
+        imagePart.setHeader("Content-ID", "<" + imageCid + ">");
 
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        // Create the multipart message and add the parts
+        MimeMultipart multipart = new MimeMultipart();
+        multipart.addBodyPart(htmlPart);
+        multipart.addBodyPart(imagePart);
 
-            // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
+        // Set the multipart message as the content of the email
+        message.setContent(multipart);
 
-            // Now set the actual message
-            message.setText("This is actual message");
+        // Send the email
+        Transport.send(message);
+    }
 
-            // Send message
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
+    public static String getPasswordFromConsole(){
+        Console console = System.console();
+        if (console == null) {
+            System.err.println("No console found");
+            System.exit(1);
         }
+        char[] passwordArray = console.readPassword("Enter your password: ");
+        return new String(passwordArray);
     }
 }
