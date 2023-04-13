@@ -56,6 +56,7 @@ let auth = {
     background-color: ` + scheme.colors.mid_light + `;
     width: 64px;
     height: 64px;   
+    border-radius:7.5% 0% 0% 7.5%;
     position: absolute;
     top: 0;
     right: 0;
@@ -78,8 +79,8 @@ let navicon = {
     style: `
     image-rendering: pixelated;
     padding: 4px;
-    width: calc(100% - 8px);
-    height:  calc(100% - 8px);
+    width: 56px;
+    height: 56px;
     `,
     render: function(src, alt) {
         return `
@@ -111,6 +112,8 @@ let title = {
 
 // ++++++  DOOMSCROLL  ++++++
 
+
+
 let doomscroll = {
     id: "doomscroll",
     style: `
@@ -122,7 +125,9 @@ let doomscroll = {
     render: function() {
         return `
         <div id="` + this.id + `" style="` + styleFormat(this.style) +`">
+        <div id="scroll_body">
         ` + post_body.render("Today") + `
+        </div>
         </div>
         `;
     }
