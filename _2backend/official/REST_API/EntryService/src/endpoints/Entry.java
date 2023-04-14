@@ -1,4 +1,4 @@
-package org.example;
+package endpoints;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,12 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @SpringBootApplication
 @RestController
-public class MyApplication {
+public class Entry {
 
     public static void main(String[] args) {
-        SpringApplication.run(MyApplication.class, args);
+        SpringApplication.run(Entry.class, args);
     }
 
     @PutMapping("/entry/{resource_id}")
