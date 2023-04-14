@@ -1,5 +1,6 @@
 package database;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -15,17 +16,18 @@ public class HibernateUtil {
             .setProperty("hibernate.connection.username", "username")
             .setProperty("hibernate.connection.password", "password")
             .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
-            .addClass(FileEntity.class);
+            .addAnnotatedClass(FileEntity.class);
 
     private static final SessionFactory sessionFactory;
 
-    static{
+    static {
         try {
-             sessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable e) {
-            throw new ExceptionInInitializerError(e);
+            sessionFactory = configuration.buildSessionFactory();
+        } catch (HibernateException e) {
+            throw new RuntimeException(e);
         }
     }
+
 
     public static SessionFactory getSessionFactory(){
         return sessionFactory;

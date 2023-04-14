@@ -9,6 +9,7 @@ import database.DetailEntity;
 import database.FileEntity;
 import database.HibernateUtil;
 import database.MetadataEntity;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -64,7 +65,12 @@ public class UploadFile {
     private static void insertIntoTables(FileEntity fileEntity, MetadataEntity metadataEntity, DetailEntity detailEntity) {
 
         // save all entities to the database
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+        } catch (HibernateException e) {
+            throw new RuntimeException(e);
+        }
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
