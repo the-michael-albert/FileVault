@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS vault;
 USE vault;
 
 CREATE TABLE IF NOT EXISTS metadata (
-    id BIGINT PRIMARY KEY unique,
+    id BIGINT PRIMARY KEY unique auto_increment,
     width SMALLINT,
     height SMALLINT,
     duration BIGINT,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS metadata (
 );
 
 CREATE TABLE IF NOT EXISTS detail (
-    id BIGINT PRIMARY KEY unique,
+    id BIGINT PRIMARY KEY unique auto_increment,
     resource_id CHAR(40) unique,
     file_name VARCHAR(255),
     FOREIGN KEY (resource_id) REFERENCES metadata(resource_id),
