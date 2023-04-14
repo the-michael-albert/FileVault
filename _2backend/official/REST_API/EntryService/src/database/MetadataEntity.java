@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class MetadataEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -19,16 +20,19 @@ public class MetadataEntity {
     @Column(name = "duration")
     private Long duration;
 
-    @Column(name = "resource_id", unique = true, nullable = false)
+    @Column(name = "resource_id", unique = true, length = 40)
     private String resourceId;
 
-    public MetadataEntity() {
-    }
+    public MetadataEntity() {}
 
-    public MetadataEntity(Long id, String resourceId) {
-        this.id = id;
+    public MetadataEntity(Short width, Short height, Long duration, String resourceId) {
+        this.width = width;
+        this.height = height;
+        this.duration = duration;
         this.resourceId = resourceId;
     }
+
+    // getters and setters
 
     public Long getId() {
         return id;
@@ -69,5 +73,4 @@ public class MetadataEntity {
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
     }
-
 }

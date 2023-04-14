@@ -1,9 +1,5 @@
 package database;
-
-
 import javax.persistence.*;
-import org.hibernate.*;
-
 
 @Entity
 @Table(name = "file")
@@ -14,30 +10,33 @@ public class FileEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "resource_id", unique = true)
+    @Column(name = "resource_id")
     private String resourceId;
 
     @Column(name = "date_year")
-    private Short dateYear;
+    private Integer dateYear;
 
     @Column(name = "date_month")
-    private Byte dateMonth;
+    private Integer dateMonth;
 
     @Column(name = "date_day")
-    private Byte dateDay;
+    private Integer dateDay;
 
     @Column(name = "file_type")
-    private Byte fileType;
+    private Integer fileType;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private MetadataEntity metadata;
+    public FileEntity() {
+    }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private DetailEntity detail;
+    public FileEntity(String resourceId, Integer dateYear, Integer dateMonth, Integer dateDay, Integer fileType) {
+        this.resourceId = resourceId;
+        this.dateYear = dateYear;
+        this.dateMonth = dateMonth;
+        this.dateDay = dateDay;
+        this.fileType = fileType;
+    }
 
-    // constructor, getters, and setters
+    // getters and setters
 
     public Long getId() {
         return id;
@@ -55,92 +54,49 @@ public class FileEntity {
         this.resourceId = resourceId;
     }
 
-    public Short getDateYear() {
+    public Integer getDateYear() {
         return dateYear;
     }
 
-    public void setDateYear(Short dateYear) {
+    public void setDateYear(Integer dateYear) {
         this.dateYear = dateYear;
     }
 
-    public Byte getDateMonth() {
+    public Integer getDateMonth() {
         return dateMonth;
     }
 
-    public void setDateMonth(Byte dateMonth) {
+    public void setDateMonth(Integer dateMonth) {
         this.dateMonth = dateMonth;
     }
 
-    public Byte getDateDay() {
+    public Integer getDateDay() {
         return dateDay;
     }
 
-    public void setDateDay(Byte dateDay) {
+    public void setDateDay(Integer dateDay) {
         this.dateDay = dateDay;
     }
 
-    public Byte getFileType() {
+    public Integer getFileType() {
         return fileType;
     }
 
-    public void setFileType(Byte fileType) {
+    public void setFileType(Integer fileType) {
         this.fileType = fileType;
     }
 
-    public MetadataEntity getMetadata() {
-        return metadata;
-    }
+    // toString method
 
-    public void setMetadata(MetadataEntity metadata) {
-        this.metadata = metadata;
-    }
-
-    public DetailEntity getDetail() {
-        return detail;
-    }
-
-    public void setDetail(DetailEntity detail) {
-        this.detail = detail;
-    }
-
-    public void insertIntoTables() {
-        // create new entities for each table
-        MetadataEntity metadata = new MetadataEntity();
-        DetailEntity detail = new DetailEntity();
-
-        // set values for metadata entity
-        metadata.setWidth((short) 1080);
-        metadata.setHeight((short) 1080);
-        metadata.setDuration(4200L);
-        metadata.setResourceId(this.resourceId);
-
-        // set values for detail entity
-        detail.setResourceId(this.resourceId);
-        detail.setFileName("bigfile.jpg");
-
-        // set values for file entity
-        this.metadata = metadata;
-        this.detail = detail;
-
-        // save all entities to the database
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-
-        try {
-            transaction = session.beginTransaction();
-
-            session.save(metadata);
-            session.save(detail);
-            session.save(this);
-
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
+    @Override
+    public String toString() {
+        return "FileEntity{" +
+                "id=" + id +
+                ", resourceId='" + resourceId + '\'' +
+                ", dateYear=" + dateYear +
+                ", dateMonth=" + dateMonth +
+                ", dateDay=" + dateDay +
+                ", fileType=" + fileType +
+                '}';
     }
 }

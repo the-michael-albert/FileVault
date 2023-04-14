@@ -11,23 +11,28 @@ public class DetailEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "resource_id", unique = true, nullable = false)
+    @Column(name = "resource_id", unique = true, length = 40)
     private String resourceId;
 
-    @Column(name = "file_name", nullable = false)
+    @Column(name = "file_name", length = 255)
     private String fileName;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resource_id", referencedColumnName = "resource_id", nullable = false, insertable = false, updatable = false)
     private MetadataEntity metadata;
 
-    public DetailEntity() {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private MetadataEntity metadata2;
+
+    public DetailEntity() {}
 
     public DetailEntity(String resourceId, String fileName) {
         this.resourceId = resourceId;
         this.fileName = fileName;
     }
+
+    // getters and setters
 
     public Long getId() {
         return id;
@@ -59,5 +64,13 @@ public class DetailEntity {
 
     public void setMetadata(MetadataEntity metadata) {
         this.metadata = metadata;
+    }
+
+    public MetadataEntity getMetadata2() {
+        return metadata2;
+    }
+
+    public void setMetadata2(MetadataEntity metadata2) {
+        this.metadata2 = metadata2;
     }
 }
