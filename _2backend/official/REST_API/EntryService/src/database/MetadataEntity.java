@@ -22,9 +22,6 @@ public class MetadataEntity {
     @Column(name = "resource_id", unique = true, nullable = false)
     private String resourceId;
 
-    @OneToOne(mappedBy = "metadata")
-    private DetailEntity detail;
-
     public MetadataEntity() {
     }
 
@@ -73,11 +70,4 @@ public class MetadataEntity {
         this.resourceId = resourceId;
     }
 
-    public DetailEntity getDetail() {
-        return detail;
-    }
-
-    public void setDetail(DetailEntity detail) {
-        this.detail = detail;
-    }
 }
