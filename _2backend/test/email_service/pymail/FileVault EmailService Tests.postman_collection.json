@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "39476bc6-10b1-4b6b-9122-4642da38fc04",
+		"name": "FileVault EmailService Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "email test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": \"contact@michaelalbert.one\",\r\n    \"to\": \"malber@uw.edu\",\r\n    \"subject\": \"Test Email\",\r\n    \"body\": \"<html><h1>Hello there!</h1><p>You are a <b>valued</b> customer</p><html>\",\r\n    \"type\":\"html\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5000/send-email",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"send-email"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
