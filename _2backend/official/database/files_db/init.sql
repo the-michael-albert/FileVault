@@ -14,9 +14,7 @@ CREATE TABLE IF NOT EXISTS metadata (
 CREATE TABLE IF NOT EXISTS detail (
     id BIGINT PRIMARY KEY unique auto_increment,
     resource_id CHAR(40) unique,
-    file_name VARCHAR(255),
-    FOREIGN KEY (resource_id) REFERENCES metadata(resource_id),
-    FOREIGN KEY (id) REFERENCES metadata(id)
+    file_name VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS file (
@@ -25,9 +23,5 @@ CREATE TABLE IF NOT EXISTS file (
     date_year SMALLINT,
     date_month TINYINT,
     date_day TINYINT,
-    file_type TINYINT,
-    FOREIGN KEY (id) REFERENCES metadata(id),
-    FOREIGN KEY (id) REFERENCES detail(id),
-    FOREIGN KEY (resource_id) REFERENCES metadata(resource_id),
-    FOREIGN KEY (resource_id) REFERENCES detail(resource_id)
+    file_type TINYINT
 );
