@@ -6,4 +6,4 @@ ENV MYSQL_DATABASE1=file
 ENV MYSQL_DATABASE2=meta
 
 # Copy the create_tables.sql file to the container
-COPY init.sql /docker-entrypoint-initdb.d/
+COPY ./init.sql /docker-entrypoint-initdb.d/
